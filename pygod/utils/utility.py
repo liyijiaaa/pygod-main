@@ -131,7 +131,8 @@ def check_parameter(param, low=MIN_INT, high=MAX_INT, param_name='',
         return True
 
 
-def load_data(name, cache_dir=None):
+
+def load_data(name, cache_dir="F:\Pytorchprojects\GADAM - update\data"):
     """
     Data loading function. See `data repository
     <https://github.com/pygod-team/data>`_ for supported datasets.
@@ -170,6 +171,7 @@ def load_data(name, cache_dir=None):
     zip_path = os.path.join(cache_dir, name+'.pt.zip')
 
     if os.path.exists(file_path):
+
         data = torch.load(file_path)
     else:
         url = "https://github.com/pygod-team/data/raw/main/" + name + ".pt.zip"
