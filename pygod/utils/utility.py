@@ -131,7 +131,7 @@ def check_parameter(param, low=MIN_INT, high=MAX_INT, param_name='',
         return True
 
 
-def load_data(name, cache_dir=r"/kaggle/input"):
+def load_data(name, cache_dir=r"/kaggle/input/citeseerpt"):
     """
     只从本地加载数据的简化版本
 
