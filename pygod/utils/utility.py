@@ -131,7 +131,7 @@ def check_parameter(param, low=MIN_INT, high=MAX_INT, param_name='',
         return True
 
 
-def load_data_local(name, cache_dir=r"F:\Pytorchprojects\GADAM - update\data"):
+def load_data(name, cache_dir=r"F:\Pytorchprojects\GADAM - update\data"):
     """
     只从本地加载数据的简化版本
 
