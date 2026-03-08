@@ -21,7 +21,7 @@ you have basic familiarity with PyTorch and PyTorch Geometric (PyG).
 import torch_geometric.transforms as T
 from torch_geometric.datasets import Planetoid
 
-data = Planetoid('./data/Cora', 'Cora', transform=T.NormalizeFeatures())[0]
+data = Planetoid('./data/Citeseer', 'Citeseer', transform=T.NormalizeFeatures())[0]
 
 #######################################################################
 # Because there is no ground truth label of outliers in Cora, we follow
@@ -34,8 +34,8 @@ data = Planetoid('./data/Cora', 'Cora', transform=T.NormalizeFeatures())[0]
 import torch
 from pygod.generator import gen_contextual_outlier, gen_structural_outlier
 
-data, ya = gen_contextual_outlier(data, n=100, k=50)
-data, ys = gen_structural_outlier(data, m=10, n=10)
+data, ya = gen_contextual_outlier(data, n=140, k=50)
+data, ys = gen_structural_outlier(data, m=10, n=14)
 data.y = torch.logical_or(ys, ya).long()
 
 #######################################################################
@@ -44,67 +44,67 @@ data.y = torch.logical_or(ys, ya).long()
 # See `data repository <https://github.com/pygod-team/data>`__
 # for more details.
 
-
-from pygod.utils import load_data
-
-data = load_data('inj_cora')
-data.y = data.y.bool()
-
-#######################################################################
-# Initialization
-# --------------
-# You can use any detector by simply initializing without passing any
-# arguments. Default hyperparameters are ready for you. Of course, you
-# can also customize the parameters by passing arguments. Here, we use
-# ``pygod.detector.DOMINANT`` as an example.
-
-
-from pygod.detector import DOMINANT
-
-detector = DOMINANT(hid_dim=64, num_layers=4, epoch=100)
-
-#######################################################################
-# Training
-# --------
-# To train the detector with the loaded data, simply feed the
-# ``torch_geometric.data.Data`` object into the detector via ``fit``.
-
-
-detector.fit(data)
-
-#######################################################################
-# Inference
-# ---------
-# After training, the detector is ready to use. You can use the detector
-# to predict the labels, raw outlier scores, probability of the
-# outlierness, and prediction confidence. Here, we use the loaded data
-# as an example.
-
-
-pred, score, prob, conf = detector.predict(data,
-                                           return_pred=True,
-                                           return_score=True,
-                                           return_prob=True,
-                                           return_conf=True)
-print('Labels:')
-print(pred)
-
-print('Raw scores:')
-print(score)
-
-print('Probability:')
-print(prob)
-
-print('Confidence:')
-print(conf)
-
-#######################################################################
-# Evaluation
-# ----------
-# To evaluate the performance outlier detector with AUC score, you can:
-
-
-from pygod.metric import eval_roc_auc
-
-auc_score = eval_roc_auc(data.y, score)
-print('AUC Score:', auc_score)
+#
+# from pygod.utils import load_data
+#
+# data = load_data('inj_cora')
+# data.y = data.y.bool()
+#
+# #######################################################################
+# # Initialization
+# # --------------
+# # You can use any detector by simply initializing without passing any
+# # arguments. Default hyperparameters are ready for you. Of course, you
+# # can also customize the parameters by passing arguments. Here, we use
+# # ``pygod.detector.DOMINANT`` as an example.
+#
+#
+# from pygod.detector import DOMINANT
+#
+# detector = DOMINANT(hid_dim=64, num_layers=4, epoch=100)
+#
+# #######################################################################
+# # Training
+# # --------
+# # To train the detector with the loaded data, simply feed the
+# # ``torch_geometric.data.Data`` object into the detector via ``fit``.
+#
+#
+# detector.fit(data)
+#
+# #######################################################################
+# # Inference
+# # ---------
+# # After training, the detector is ready to use. You can use the detector
+# # to predict the labels, raw outlier scores, probability of the
+# # outlierness, and prediction confidence. Here, we use the loaded data
+# # as an example.
+#
+#
+# pred, score, prob, conf = detector.predict(data,
+#                                            return_pred=True,
+#                                            return_score=True,
+#                                            return_prob=True,
+#                                            return_conf=True)
+# print('Labels:')
+# print(pred)
+#
+# print('Raw scores:')
+# print(score)
+#
+# print('Probability:')
+# print(prob)
+#
+# print('Confidence:')
+# print(conf)
+#
+# #######################################################################
+# # Evaluation
+# # ----------
+# # To evaluate the performance outlier detector with AUC score, you can:
+#
+#
+# from pygod.metric import eval_roc_auc
+#
+# auc_score = eval_roc_auc(data.y, score)
+# print('AUC Score:', auc_score)
